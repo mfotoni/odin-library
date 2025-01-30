@@ -1,0 +1,21 @@
+td,
+th {
+  border: 1px solid black;
+  text-align: center;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(auto-fit(minmax(150px, 1fr)));
+}
+
+#book-form {
+  /* display: block; */
+  grid-column: 2/6;
+  grid-row-start: 1;
+}
+
+#library-table {
+  grid-column: 2/6;
+}
