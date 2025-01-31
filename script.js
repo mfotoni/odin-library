@@ -1,11 +1,13 @@
 const myLibrary = [];
 
 function Book(title, author, pages, read) {
+  this.bookId = `book${++Book.id}`;
   this.title = title;
   this.author = author;
   this.pages = pages;
   this.read = read;
 }
+Book.id = 0;
 
 const newBook = document.querySelector("#new-book");
 const form = document.getElementById("book-form");
@@ -34,19 +36,26 @@ function addBookToLibrary() {
 
   myLibrary.forEach((book) => {
     let tr = document.createElement("tr");
+    tr.classList.add(`${myLibrary.bookId}`);
     Object.entries(book).forEach(([key, value]) => {
-      let td = document.createElement("td");
-      if (key === "read") {
-        td.textContent = value ? "Yes" : "No";
-      } else {
-        td.textContent = value;
+      if (key !== "bookId") {
+        let td = document.createElement("td");
+        if (key === "read") {
+          td.textContent = value ? "Yes" : "No";
+        } else {
+          td.textContent = value;
+        }
+        tr.appendChild(td);
       }
-      tr.appendChild(td);
     });
     table.appendChild(tr);
+    const removeButton = document.createElement("button");
+    tr.appendChild(removeButton);
+    removeButton.textContent = "Remove";
+    removeButton.addEventListener("click", removeBook);
   });
-
   form.reset();
+  form.style.display = "none";
 }
 
 form.addEventListener("submit", function (e) {
@@ -56,4 +65,11 @@ form.addEventListener("submit", function (e) {
 
 for (let i = 0; i < myLibrary.length; i++) {
   console.log(myLibrary[i]);
+}
+
+function removeBook() {
+  const bookId = this.parentElement.classList[0];
+  const findBook = myLibrary.findIndex((element) => element.bookId === bookId);
+  myLibrary.splice(findBook, 1);
+  this.parentElement.remove();
 }
