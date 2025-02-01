@@ -36,18 +36,29 @@ function addBookToLibrary() {
 
   myLibrary.forEach((book) => {
     let tr = document.createElement("tr");
-    tr.classList.add(`${myLibrary.bookId}`);
+    tr.classList.add(book.bookId);
+
     Object.entries(book).forEach(([key, value]) => {
       if (key !== "bookId") {
         let td = document.createElement("td");
+
         if (key === "read") {
-          td.textContent = value ? "Yes" : "No";
+          let readButton = document.createElement("button");
+          readButton.textContent = value ? "Readed" : "Unread";
+
+          readButton.addEventListener("click", function () {
+            book.read = !book.read;
+            this.textContent = book.read ? "Readed" : "Unread";
+          });
+
+          td.appendChild(readButton);
         } else {
           td.textContent = value;
         }
         tr.appendChild(td);
       }
     });
+
     table.appendChild(tr);
     const removeButton = document.createElement("button");
     tr.appendChild(removeButton);
